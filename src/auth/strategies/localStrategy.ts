@@ -1,11 +1,11 @@
-import { Strategy } from "passport-local";
+import { Strategy as StrategyLocal } from "passport-local";
 import Boom from "@hapi/boom";
 
 import { AuthService } from "./../../services/authService.js";
 
 const service = new AuthService();
 
-export const LocalStrategy = new Strategy(
+export const LocalStrategy = new StrategyLocal(
 	{ usernameField: "email", passwordField: "password" },
 	async (email, password, done) => {
 		try {

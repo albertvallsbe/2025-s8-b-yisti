@@ -6,7 +6,7 @@ import { USER_TABLE } from "../models/userModel.js";
 export default {
 	async up(
 		queryInterface: QueryInterface,
-		Sequelize: typeof SequelizeNS
+		Sequelize: typeof SequelizeNS,
 	): Promise<void> {
 		const table = await queryInterface.describeTable(USER_TABLE);
 		if (!table.role) {

@@ -1,20 +1,32 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+export const requireEnv = (envVarName: string, fallback?: string): string => {
+	const rawValue = process.env[envVarName];
+	const value = rawValue?.trim() ?? fallback;
+
+	if (!value) {
+		throw new Error(`Missing required env var: ${envVarName}`);
+	}
+	return value;
+};
+
+const env = requireEnv("NODE_ENV", "development");
+
 export const config = {
-	env: process.env.NODE_ENV || "dev",
-	isProd: process.env.NODE_ENV === "production",
-	port: process.env.PORT || 3100,
-	dbUser: process.env.DB_USER,
-	dbPassword: process.env.DB_PASSWORD,
-	dbHost: process.env.DB_HOST,
-	dbName: process.env.DB_NAME,
-	dbPort: process.env.DB_PORT || 5432,
-	dbUrl: process.env.DATABASE_URL,
-	jwtSecret: process.env.JWT_SECRET,
-	apiKey: process.env.API_KEY,
-	googleClientId: process.env.GOOGLE_CLIENT_ID,
-	googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
-	googleRefreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-	googleUser: process.env.GOOGLE_USER,
+	env,
+	isProd: env === "production" ? true : false,
+	port: Number(requireEnv("PORT", "3100")),
+	dbUser: requireEnv("DB_USER"),
+	dbPassword: requireEnv("DB_PASSWORD"),
+	dbHost: requireEnv("DB_HOST"),
+	dbName: requireEnv("DB_NAME"),
+	dbPort: Number(requireEnv("DB_PORT", "5432")),
+	dbUrl: requireEnv("DATABASE_URL", ""),
+	jwtSecret: requireEnv("JWT_SECRET"),
+	apiKey: requireEnv("API_KEY"),
+	googleClientId: requireEnv("GOOGLE_CLIENT_ID"),
+	googleClientSecret: requireEnv("GOOGLE_CLIENT_SECRET"),
+	googleRefreshToken: requireEnv("GOOGLE_REFRESH_TOKEN"),
+	googleUser: requireEnv("GOOGLE_USER"),
 };
