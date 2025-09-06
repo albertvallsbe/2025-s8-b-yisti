@@ -1,14 +1,7 @@
-// import { faker } from "@faker-js/faker";
-import {
-	ValidationError,
-	// UniqueConstraintError,
-	DatabaseError,
-} from "sequelize";
+import { ValidationError, DatabaseError } from "sequelize";
 import Boom from "@hapi/boom";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import nodemailer from "nodemailer";
-// import { google } from "googleapis";
 
 import { config } from "./../config/config.js";
 import type {

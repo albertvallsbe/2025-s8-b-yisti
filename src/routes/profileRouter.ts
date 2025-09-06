@@ -3,17 +3,11 @@ import passport from "passport";
 import Boom from "@hapi/boom";
 import { Router } from "express";
 
-import { config } from "../config/config.js";
 import { OrderService } from "../services/orderService.js";
 import type { userJwtPayload } from "../types/types.js";
 
 export const profileRouter = Router();
 const service = new OrderService();
-
-const JWT_SECRET = config.jwtSecret;
-if (!JWT_SECRET) {
-	throw Boom.badImplementation("Missing JWT_SECRET");
-}
 
 profileRouter.get(
 	"/my-orders",
