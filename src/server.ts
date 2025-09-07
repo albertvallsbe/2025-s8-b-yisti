@@ -32,8 +32,8 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 	next(Boom.notFound(`Route ${req.method} ${req.originalUrl} not found`));
 });
 
-app.use(ormErrorHandler);
 app.use(boomErrorHandler);
+app.use(ormErrorHandler);
 app.use(errorHandler);
 
 app.listen(PORT, () => {

@@ -81,4 +81,7 @@ export type FindQuery = {
 
 export interface AppError extends Error {
 	statusCode?: number;
+	status?: number;
+	code?: string | number;
+	data?: unknown;
 }

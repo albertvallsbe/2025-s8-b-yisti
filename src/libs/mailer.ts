@@ -77,7 +77,9 @@ export const createTransport = async () => {
 
 	try {
 		const transporter = nodemailer.createTransport({
-			service: "gmail",
+			host: "smtp.gmail.com",
+			port: 465,
+			secure: true,
 			auth: {
 				type: "OAuth2",
 				user: googleUser,
@@ -89,6 +91,8 @@ export const createTransport = async () => {
 			connectionTimeout: 5_000,
 			greetingTimeout: 5_000,
 			socketTimeout: 5_000,
+			logger: true,
+			debug: true,
 		});
 		return transporter;
 	} catch (error: unknown) {

@@ -6,10 +6,10 @@ import { ValidationError } from "sequelize";
 import type { AppError } from "../types/types.js";
 
 export const boomErrorHandler = (
-	error: any,
+	error: AppError | BoomType,
 	_req: Request,
 	res: Response,
-	next: NextFunction
+	next: NextFunction,
 ) => {
 	if (Boom.isBoom(error)) {
 		const { output, data } = error as BoomType;
@@ -22,10 +22,10 @@ export const boomErrorHandler = (
 };
 
 export const ormErrorHandler = (
-	error: AppError,
+	error: AppError | BoomType,
 	_req: Request,
 	res: Response,
-	next: NextFunction
+	next: NextFunction,
 ) => {
 	if (error instanceof ValidationError) {
 		return res.status(409).json({
@@ -38,18 +38,23 @@ export const ormErrorHandler = (
 };
 
 export const errorHandler = (
-	error: AppError,
+	error: AppError | Error,
 	_req: Request,
 	res: Response,
-	_next: NextFunction
+	_next: NextFunction,
 ) => {
 	if (res.headersSent) return;
 
-	const statusCode = error.statusCode || 500;
+	const hasStatusCode =
+		typeof (error as AppError).statusCode === "number" &&
+		Number.isFinite((error as AppError).statusCode);
+
+	// const statusCode = error.statusCode || 500;
+	const statusCode = hasStatusCode ? (error as AppError).statusCode! : 500;
 	const message = error.message || "An internal server error occurred";
 
 	console.error(
-		`[ERROR] ${new Date().toISOString()} - ${statusCode} - ${message}`
+		`[ERROR] ${new Date().toISOString()} - ${statusCode} - ${message}`,
 	);
 
 	if (error.stack) {
