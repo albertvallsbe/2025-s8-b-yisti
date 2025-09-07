@@ -84,7 +84,7 @@ export class AuthService {
 		try {
 			const user = await service.findByEmail(email);
 			if (!user) {
-				throw Boom.notFound("User  not found");
+				throw Boom.notFound("User not found");
 			}
 
 			const JWT_SECRET = config.jwtSecret;
@@ -98,14 +98,12 @@ export class AuthService {
 			};
 
 			const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "15m" });
-
 			await service.updatePatch(String(id), { recoveryToken: token });
-			const link = `http://localhost:3100/recovery?token=${token}`;
 
 			const mail: SendMailOptions = {
 				to: userEmail,
 				subject: "Aquest es un correu nou",
-				html: `<b>Ingresa a aquest link=> ${link}</b>`,
+				html: `<b>Token => ${token}</b>`,
 			};
 
 			const resposta = await sendMailReusable(mail);

@@ -37,8 +37,18 @@ authRouter.post(
 				return next(Boom.badRequest("Email is required"));
 			}
 
-			const recovery = await service.sendRecovery(email);
-			return res.json(recovery);
+			try {
+				await service.sendRecovery(email);
+			} catch (error) {
+				if (Boom.isBoom(error) && error.output?.statusCode === 404) {
+					throw Boom.badRequest("Invalid recovery request");
+				}
+				throw Boom.badGateway("Failed to send recovery email");
+			}
+
+			return res.status(202).json({
+				message: "If the email exists, a recovery link will be sent.",
+			});
 		} catch (error) {
 			return next(error);
 		}
