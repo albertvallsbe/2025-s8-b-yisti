@@ -54,7 +54,6 @@ export const createTransport = async () => {
 	let accessToken: string | undefined;
 	try {
 		const accessTokenResponse = await client.getAccessToken();
-
 		accessToken =
 			typeof accessTokenResponse === "string"
 				? accessTokenResponse
@@ -70,41 +69,66 @@ export const createTransport = async () => {
 			message: oauthError.message,
 			response: oauthError.response,
 		};
-		throw Boom.badGateway("Unable to obtain Gmail access token", {
-			data: details,
-		});
+		throw Boom.badGateway("Unable to obtain Gmail access token", details);
 	}
 
-	try {
-		const transporter = nodemailer.createTransport({
+	const buildTransport = (useSmtps: boolean) =>
+		nodemailer.createTransport({
 			host: "smtp.gmail.com",
-			port: 465,
-			secure: true,
+			port: useSmtps ? 465 : 587,
+			secure: useSmtps,
+			requireTLS: !useSmtps,
 			auth: {
-				type: "OAuth2",
+				type: "OAuth2" as const,
 				user: googleUser,
 				clientId: googleClientId,
 				clientSecret: googleClientSecret,
 				refreshToken: googleRefreshToken,
 				accessToken,
 			},
-			connectionTimeout: 5_000,
-			greetingTimeout: 5_000,
-			socketTimeout: 5_000,
+			connectionTimeout: 20_000,
+			greetingTimeout: 20_000,
+			socketTimeout: 20_000,
 			logger: true,
 			debug: true,
+			tls: { servername: "smtp.gmail.com" },
 		});
+
+	try {
+		const transporter = buildTransport(true);
+		await transporter.verify();
 		return transporter;
-	} catch (error: unknown) {
-		const transportError = error as MailError;
+	} catch (error465: unknown) {
+		const transportError = error465 as MailError;
+
+		const isConnIssue =
+			transportError.code === "ETIMEDOUT" ||
+			transportError.code === "ESOCKET" ||
+			transportError.command === "CONN";
+
 		const details = {
 			code: transportError.code,
 			message: transportError.message,
 			response: transportError.response,
 		};
-		throw Boom.badGateway("Unable to create mail transporter", {
-			data: details,
-		});
+
+		if (!isConnIssue) {
+			throw Boom.badGateway("Unable to create mail transporter", details);
+		}
+
+		try {
+			const transporter = buildTransport(false);
+			await transporter.verify();
+			return transporter;
+		} catch (error587: unknown) {
+			const transportError = error587 as MailError;
+
+			throw Boom.serverUnavailable("Email service timeout", {
+				code: transportError.code,
+				command: transportError.command,
+				message: transportError.message,
+			});
+		}
 	}
 };
 
