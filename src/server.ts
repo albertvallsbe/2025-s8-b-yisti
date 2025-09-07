@@ -39,6 +39,15 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
 	console.log(`Servidor: http://localhost:${PORT}`);
+	console.log(
+		"[BOOT]",
+		"node",
+		process.version,
+		"NODE_ENV",
+		process.env.NODE_ENV,
+		"NODE_OPTIONS",
+		process.env.NODE_OPTIONS,
+	);
 });
 
 const shutdown = async () => {
