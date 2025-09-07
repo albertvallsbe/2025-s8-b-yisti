@@ -96,6 +96,9 @@ export const createTransport = async () => {
 
 	try {
 		const transporter = buildTransport(true);
+
+		console.log("[MAIL] intent 465 secure=true");
+
 		await transporter.verify();
 		return transporter;
 	} catch (error465: unknown) {
@@ -118,6 +121,9 @@ export const createTransport = async () => {
 
 		try {
 			const transporter = buildTransport(false);
+
+			console.log("[MAIL] intent 587 STARTTLS");
+
 			await transporter.verify();
 			return transporter;
 		} catch (error587: unknown) {
@@ -138,8 +144,6 @@ export const sendMail = async (options: SendMailOptions) => {
 		options.from = `MyStore App <${config.googleUser}>`;
 	}
 	try {
-		await transporter.verify();
-
 		const mail = await transporter.sendMail(options);
 		return mail;
 	} catch (error) {

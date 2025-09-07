@@ -1,4 +1,7 @@
+import dns from "node:dns";
+dns.setDefaultResultOrder("ipv4first");
 import dotenv from "dotenv";
+dotenv.config();
 import { sequelize } from "./libs/sequelize.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -12,8 +15,6 @@ import {
 	boomErrorHandler,
 	ormErrorHandler,
 } from "./middlewares/errorHandler.js";
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
