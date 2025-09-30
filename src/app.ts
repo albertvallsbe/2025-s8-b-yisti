@@ -14,6 +14,13 @@ const whitelist: string[] = [
 	"http://localhost:5500",
 	"http://127.0.0.1:5500",
 	"https://2025-platzi-mystore.up.railway.app",
+	// Vite dev + preview
+	"http://localhost:5173",
+	"http://127.0.0.1:5173",
+	"http://localhost:4173",
+	"http://127.0.0.1:4173",
+	// Url publica del front
+	"https://movies-albertvalls.netlify.app",
 ];
 
 const corsOptions: CorsOptions = {
@@ -24,6 +31,9 @@ const corsOptions: CorsOptions = {
 			return callback(null, false);
 		}
 	},
+	methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+	optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
 import "./auth/index.js";
