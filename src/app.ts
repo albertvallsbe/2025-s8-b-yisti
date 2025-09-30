@@ -36,6 +36,7 @@ const corsOptions: CorsOptions = {
 	optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 import "./auth/index.js";
 
 app.get("/new-route", checkApiKey, (req: Request, res: Response) => {
