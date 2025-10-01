@@ -24,10 +24,10 @@ export const config = {
 	googleClientSecret: requireEnv("GOOGLE_CLIENT_SECRET"),
 	googleRefreshToken: requireEnv("GOOGLE_REFRESH_TOKEN"),
 	googleUser: requireEnv("GOOGLE_USER"),
-	port: isProd ? undefined : Number(requireEnv("PORT", "3100")),
+	port: isProd ? undefined : Number(requireEnv("PORT", "3110")),
 	dbUser: isProd ? undefined : requireEnv("DB_USER"),
 	dbPassword: isProd ? undefined : requireEnv("DB_PASSWORD"),
 	dbHost: isProd ? undefined : requireEnv("DB_HOST"),
 	dbName: isProd ? undefined : requireEnv("DB_NAME"),
-	dbPort: isProd ? undefined : Number(requireEnv("DB_PORT", "5432")),
+	dbPort: isProd ? undefined : Number(requireEnv("DB_PORT", "5435")),
 };

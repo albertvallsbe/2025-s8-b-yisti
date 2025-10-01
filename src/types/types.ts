@@ -30,41 +30,6 @@ export interface Customer {
 	createdAt: Date;
 	updatedAt: Date;
 }
-export interface Order {
-	id: number;
-	customerId: number;
-	createdAt: Date;
-	updatedAt: Date;
-}
-
-export interface Category {
-	id: number;
-	name: string;
-	image: string;
-	createdAt: Date;
-	updatedAt: Date;
-}
-
-export interface Product {
-	id: number;
-	name: string;
-	price: number;
-	description: string;
-	image: string;
-	isBlock: boolean;
-	categoryId: number;
-	createdAt: Date;
-	updatedAt: Date;
-}
-
-export interface OrderProduct {
-	id: number;
-	amount: number;
-	orderId: number;
-	productId: number;
-	createdAt: Date;
-	updatedAt: Date;
-}
 
 export type ReqProperty = "body" | "params" | "query" | "headers";
 
