@@ -14,8 +14,8 @@ const buildUri = () => {
 	const USER = encodeURIComponent(config.dbUser ?? "");
 	const PASSWORD = encodeURIComponent(config.dbPassword ?? "");
 	const HOST = String(config.dbHost ?? "localhost");
-	const PORT = String(config.dbPort ?? "5432");
-	const DB = String(config.dbName ?? "my_store");
+	const PORT = String(config.dbPort ?? "5435");
+	const DB = String(config.dbName ?? "movieis");
 
 	return `postgres://${USER}:${PASSWORD}@${HOST}:${PORT}/${DB}`;
 };

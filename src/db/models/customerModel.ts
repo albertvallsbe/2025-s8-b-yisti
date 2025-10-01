@@ -26,12 +26,8 @@ export class Customer
 
 	static associate(models: Sequelize["models"]) {
 		const { User } = models as { User: typeof import("./userModel.js").User };
-		const { Order } = models as {
-			Order: typeof import("./orderModel.js").Order;
-		};
 
 		this.belongsTo(User, { as: "user", foreignKey: "userId" });
-		this.hasMany(Order, { as: "orders", foreignKey: "customerId" });
 	}
 
 	static config(sequelize: Sequelize) {
