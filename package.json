@@ -11,7 +11,7 @@
 		"start-w": "nodemon -q .",
 		"lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
 		"format": "prettier --write .",
-		"typecheck": "tsc --noEmit",
+		"type-w": "tsc -w --noEmit --preserveWatchOutput",
 		"migrations:generate": "sequelize-cli migration:generate --name",
 		"migrations:generate:seeds": "sequelize-cli seed:generate --name",
 		"migrations:seeds:run": "sequelize-cli db:seed:all --seeders-path dist/db/seeders",

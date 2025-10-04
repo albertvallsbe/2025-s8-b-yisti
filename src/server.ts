@@ -23,10 +23,6 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.set("trust proxy", 1);
 
-// app.get("/favicon.ico", (req: Request, res: Response) => {
-// 	res.sendFile(path.join(__dirname, "../public/img/favicon.ico"));
-// });
-
 app.use(express.static(path.join(__dirname, "..", "./public")));
 
 app.use((req: Request, _res: Response, next: NextFunction) => {
@@ -37,18 +33,7 @@ app.use(boomErrorHandler);
 app.use(ormErrorHandler);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-	console.log(`Servidor: http://localhost:${PORT}`);
-	console.log(
-		"[BOOT]",
-		"node",
-		process.version,
-		"NODE_ENV",
-		process.env.NODE_ENV,
-		"NODE_OPTIONS",
-		process.env.NODE_OPTIONS,
-	);
-});
+app.listen(PORT);
 
 const shutdown = async () => {
 	try {

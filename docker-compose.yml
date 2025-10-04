@@ -1,22 +1,22 @@
 services:
-    postgres-movieis:
+    postgres-yisti:
         image: postgres:14
         environment:
-            - POSTGRES_DB=movieis
-            - POSTGRES_USER=albert
-            - POSTGRES_PASSWORD=0110
+            - POSTGRES_DB=yisti
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=root
         ports:
             - 5435:5432
         volumes:
-            - pg-movieis:/var/lib/postgresql/data
+            - pg-yisti:/var/lib/postgresql/data
 
-    pgadmin-movieis:
+    pgadmin-yisti:
         image: dpage/pgadmin4
         environment:
             - PGADMIN_DEFAULT_EMAIL=admin@mail.com
             - PGADMIN_DEFAULT_PASSWORD=root
         ports:
-            - 5051:80
+            - 5052:80
 
 volumes:
-    pg-movieis: {}
+    pg-yisti: {}
