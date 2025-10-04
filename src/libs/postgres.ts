@@ -4,16 +4,16 @@ import { config } from "../config/config.js";
 let URI: string;
 
 if (config.isProd) {
-	if (!config.dbUrl) {
+	if (!config.databaseUrl) {
 		throw new Error("DATABASE_URL is required in production");
 	}
-	URI = config.dbUrl;
+	URI = config.databaseUrl;
 } else {
 	const { dbUser, dbPassword, dbHost, dbPort, dbName } = config;
 
 	if (!dbUser || !dbPassword || !dbHost || !dbPort || !dbName) {
 		throw new Error(
-			"Missing DB env vars: DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME"
+			"Missing DB env vars: DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME",
 		);
 	}
 

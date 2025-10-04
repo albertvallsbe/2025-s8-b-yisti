@@ -28,7 +28,7 @@
 
 		"sourceMap": true,
 		"inlineSources": true,
-		"incremental": true
+		"incremental": false
 	},
 	"include": ["src/**/*.ts"]
 }

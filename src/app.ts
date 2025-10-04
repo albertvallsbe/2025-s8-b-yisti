@@ -13,7 +13,14 @@ const whitelist: string[] = [
 	"http://127.0.0.1:3100",
 	"http://localhost:5500",
 	"http://127.0.0.1:5500",
-	"https://2025-platzi-mystore.up.railway.app",
+	"https://2025-yisti.up.railway.app",
+	// Vite dev + preview
+	"http://localhost:5173",
+	"http://127.0.0.1:5173",
+	"http://localhost:4173",
+	"http://127.0.0.1:4173",
+	// Url publica del front
+	"https://yisti.netlify.app",
 ];
 
 const corsOptions: CorsOptions = {

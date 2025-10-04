@@ -4,10 +4,10 @@ dotenv.config();
 
 const buildUri = () => {
 	if (config.isProd) {
-		if (!config.dbUrl) {
+		if (!config.databaseUrl) {
 			throw new Error("DATABASE_URL is required in production");
 		}
-		return config.dbUrl;
+		return config.databaseUrl;
 	}
 
 	const USER = encodeURIComponent(config.dbUser ?? "");
