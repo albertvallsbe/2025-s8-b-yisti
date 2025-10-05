@@ -7,8 +7,15 @@ import {
 import Boom from "@hapi/boom";
 import bcrypt from "bcrypt";
 
-import type { User as UserType } from "../types/types.js";
+import type { User as UserType, UserRole } from "../types/types.js";
 import { User as UserModel } from "../db/models/userModel.js";
+
+export type AuthUser = {
+	id: number;
+	email: string;
+	role: UserRole;
+	name?: string | "null";
+};
 
 export class UserService {
 	private users: Omit<UserType, "id">[] = [];
@@ -62,13 +69,55 @@ export class UserService {
 		}
 	}
 
-	async find(): Promise<UserType[]> {
+	// async find(): Promise<UserType[]> {
+	// 	try {
+	// 		const users = await UserModel.findAll({
+	// 			include: [{ association: "customer" }],
+	// 		});
+
+	// 		return users as UserType[];
+	// 	} catch (error) {
+	// 		if (Boom.isBoom(error)) throw error;
+	// 		if (error instanceof DatabaseError) {
+	// 			throw Boom.badGateway("Database error while fetching users");
+	// 		}
+	// 		if (error instanceof ValidationError) {
+	// 			throw Boom.badRequest(error.message);
+	// 		}
+	// 		throw Boom.badImplementation("Failed to fetch users");
+	// 	}
+	// }
+
+	async find(): Promise<AuthUser[]> {
 		try {
 			const users = await UserModel.findAll({
-				include: [{ association: "customer" }],
+				attributes: ["id", "email", "role"],
+				include: [
+					{
+						association: "customer",
+						attributes: ["name"],
+					},
+				],
 			});
 
-			return users as UserType[];
+			const result: AuthUser[] = users.map((u) => {
+				const json = u.toJSON() as {
+					id: number;
+					email: string;
+					role: UserRole;
+					customer?: { name?: string | "null" };
+				};
+
+				return {
+					id: json.id,
+					email: json.email,
+					role: json.role,
+					name: json.customer?.name ?? "null",
+				};
+			});
+
+			return result;
+			// return users as AuthUser[];
 		} catch (error) {
 			if (Boom.isBoom(error)) throw error;
 			if (error instanceof DatabaseError) {

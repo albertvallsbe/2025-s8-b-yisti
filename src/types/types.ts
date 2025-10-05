@@ -2,6 +2,7 @@ export type UserRole = "admin" | "customer" | "seller";
 export interface User {
 	id: number;
 	email: string;
+	// name?: string | "null"; -> Aqui???
 	password: string;
 	recoveryToken?: string | null;
 	role: UserRole;
